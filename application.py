@@ -241,7 +241,7 @@ def findSOC(id='findSOC'):
                     print('inside if')
                     json_dict_soc = {}
                     list_all_soc, list_merged_data, list_merged_desc, list_merged_phd, list_merged_ict_icgt, list_merged_eligiblity, list_merged_rqf, list_merged_so, list_merged_note, list_merged_rate, list_merged_90B, list_merged_80CD, list_merged_70E, list_merged_hours, list_merged_tabs  = modelPredict(JD)
-                    
+                    print('I am back')
                     if(len(list_merged_data) == len(list_merged_desc)):
                         for i in range(1, len(list_merged_data)+1):
                             key = "SOC" + str(i)
