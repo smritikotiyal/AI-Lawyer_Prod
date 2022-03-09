@@ -7,7 +7,6 @@ body {
 	padding: 0;
 	margin: 0;
 	font-family: 'Proxima Nova';
-	text-align:justify;
 }
 img {
 	max-width: 100%;
@@ -868,6 +867,7 @@ textarea.form-control {
 	padding: 0;
 	margin: 0 0 14px;
 	color: #3D404D;
+	text-align:justify;
 }
 .main .description p a:not(.text-link){
 	color: #3D404D;
@@ -906,9 +906,8 @@ a.text-link {
     left: 0;
     background-color: rgb(128, 125, 125);
     background-color: rgba(156, 152, 152, 0.993);
-    overflow-y: scroll;
+    overflow-y: hidden;
     transition: 0.5s;
-
   }
   
   .overlay-content {
@@ -923,16 +922,6 @@ a.text-link {
   }
 
   .overlay-content-subtext {
-    color : black;
-    position: static;
-    padding: 4px;
-    top: 15%;
-    width: 100%;
-    text-align: justify;
-    margin-top: 5px;
-  }
-
-  .overlay-content-evaluation {
     color : black;
     position: static;
     padding: 4px;
@@ -974,7 +963,7 @@ a.text-link {
   }
   
   @media screen and (max-height: 450px) {
-    .overlay {overflow-y: scroll;}
+    .overlay {overflow-y: auto;}
     .overlay a {font-size: 20px}
     .overlay .closebtn {
     font-size: 40px;

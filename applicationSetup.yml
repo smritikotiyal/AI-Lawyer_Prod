@@ -86,8 +86,6 @@
 
     - name: Clone a Web App repo
       ansible.builtin.git:
-        # repo: https://github.com/smritikotiyal/TryFlaskKP.git
-        # repo: https://github.com/smritikotiyal/AYJ_SOCFinder.git
         repo: https://github.com/smritikotiyal/AI-Lawyer_Prod.git
         dest: /var/flask-app
         force: yes

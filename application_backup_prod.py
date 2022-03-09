@@ -9,7 +9,6 @@ import time
 from datetime import datetime
 
 
-
 # To configure MySQL DB
 from flask_mysqldb import MySQL
 import yaml
@@ -19,8 +18,9 @@ import joblib
 
 application = Flask(__name__)
 
-basepath = "/var/flask-app/" # os.path.abspath(".")  | "./"
-# basepath = "./"
+
+# basepath = "/var/flask-app/" # os.path.abspath(".")  | "./"
+basepath = "./"
 
 # Configure db
 db = yaml.load(open(basepath +'database.yaml'))
@@ -32,7 +32,6 @@ application.config['MYSQL_PORT'] = db['mysql_port']
 mysql = MySQL(application)
 
 classes = []
-salThresholdList = []
 list_most_prob_soc = []
 list_most_prob_desc = []
 
@@ -40,7 +39,6 @@ list_most_prob_desc = []
 result_rf = []
 result_nb = []
 json_soc = [{}]
-
 
 @application.route('/')
 @application.route('/index.html')
@@ -60,21 +58,6 @@ def index():
                     classes.append(availableSOC[i][0])
             cur.close()
         print('Classes : ', classes)
-
-        if(len(salThresholdList) == 0):
-            print('salThresholdList : ')
-            cur = mysql.connection.cursor()
-            resultValue = cur.execute("SELECT A, B, C_D, E FROM AYJ_SalaryGeneralThreshold")
-            print(resultValue)
-            if resultValue > 0:
-                salThreshold = cur.fetchall()
-                print(salThreshold)
-                for i in range(0, len(salThreshold[0])):
-                    print(i)
-                    salThresholdList.append(salThreshold[0][i])
-            cur.close()
-            print('salThresholdList : ', salThresholdList)
-        
         return render_template('index.html')
     
     except Exception as e:
@@ -84,6 +67,7 @@ def index():
 @application.route('/', methods=['POST'])
 @application.route('/results/<id>', methods=['POST'])
 def findSOC(id='findSOC'):
+    print('Py here')
     if(request.form.get('salcal') == "salcal"):
         salCalculate()
         id = 'report'
@@ -267,11 +251,6 @@ def findSOC(id='findSOC'):
                         key = "M" + str(i)
                         json_dict_soc[key] = str(list_all_soc[i-1])
                     
-                    for i in range(0, len(salThresholdList)):
-                        key = "salThresh" + str(i)
-                        json_dict_soc[key] = salThresholdList[i]
-                    
-                    
                     print('json_dict_soc : ', json_dict_soc)
 
                     json_soc = [json_dict_soc]
@@ -337,6 +316,7 @@ def salCalculate():
 
 @application.route('/templates/findSOC.html', methods=['GET'])
 def findSOC2():
+    print('findSOC2')
     return render_template('findSOC.html')
 
 if __name__ == '__main__':

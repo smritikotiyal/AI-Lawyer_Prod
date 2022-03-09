@@ -183,7 +183,6 @@ function closeNav() {
   function openNav(n = 0) {
     document.getElementById("myNav").style.height = "100%";
     document.getElementById("prorata").style.display = "none";
-    document.getElementById("offsaleval").style.display = "none";
     document.getElementById("repkey").style.display = "none";
     console.log("openNav : ", n);
 	console.log('data : ', data)
@@ -203,37 +202,26 @@ function closeNav() {
     var report_so = data['SOC' + n + '_so_' + n]
     var report_note = data['SOC' + n + '_note_' + n]
     var report_tab = data['SOC' + n + '_tab_' + n]
-
-    var report_A_gen = data['salThresh0']
-    var report_B_gen = data['salThresh1']
-    var report_C_D_gen = data['salThresh2']
-    var report_E_gen = data['salThresh3']
     console.log('Data Tab : ', data)
 
     var overlayHtmlReport = document.querySelector( ".overlay-content" );
     var overlayHtml = ''
     overlayHtml += '<h1> Report for SOC Code : '+ report_soc + ', ' + report_desc + '</h1>'
     overlayHtml += '<u><h3> Eligibiltiy Criteria </h3></u>' //<u> Eligible for PhD points (SW)? : </u>' + report_phd + '</br> Eligible for ICT and ICGT? : '+ report_ict_icgt + '</br> Eligible for SW? : '+ report_eligible + '</br> Skill Level ? : ' + report_rqf + '</br> Comments : ' + report_note + '</br> </br>'
-    overlayHtml += '<table style="width:100%"><tr><th>Eligible for PhD points (SW)?</th><th>Eligible for ICT and ICGT?</th><th>Eligible for SW?</th><th>Skill Level</th><th>Minimum Hourly Wage</th><th>Shortage Occupation (SO)?</th>'
-    if(report_note != "None"){overlayHtml += '<th>Comments</th></tr>'}
-    else{overlayHtml += '</tr>'}
-    overlayHtml += '<tr><td>' + report_phd + '</td><td>' + report_ict_icgt + '</td><td>' + report_eligible + '</td><td>' + report_rqf + '</td><td><strong>£10.10</strong></td><td>' + report_so + '</td>'
-    if(report_note != "None"){'<td>' + report_note + '</td></tr></table>'}
-    else{'</tr></table>'}
+    overlayHtml += '<table style="width:100%"><tr><th>Eligible for PhD points (SW)?</th><th>Eligible for ICT and ICGT?</th><th>Eligible for SW?</th><th>Skill Level</th><th>Shortage Occupation (SO)?</th><th>Comments</th></tr>'
+    overlayHtml += '<tr><td>' + report_phd + '</td><td>' + report_ict_icgt + '</td><td>' + report_eligible + '</td><td>' + report_rqf + '</td><td>' + report_so + '</td><td>' + report_note + '</td></tr></table>'
     overlayHtmlReport.innerHTML = overlayHtml;
 
     var overlayHtmlLegend = document.querySelector( ".overlay-content-legend" );
     var overlayLegend = '';
-    overlayLegend +='<h5>Tradeable Options : <ul>'
-    if(report_tab == 1){
-        overlayLegend += '<li>Option A (100%) - An applicant' + "'" + 's salary</li>'
-        overlayLegend += '<li>Option B (90%) - person with a PHD relevant to the role, AND sponsored under a  qualifying “PHD” code job - the person’s PHD is a non-STEM PHD qualification.</li>'
-        overlayLegend += '<li>Option C (80%) - person with a PHD relevant to the role, AND sponsored under a  qualifying “PHD” code job - the person’s PHD is a STEM PHD qualification.</li>'
-        overlayLegend += '<li>Option D (80%) - a job that is a shortage occupation list role – with the exception of health and education codes that fall under national pay scales.</li>'
-        overlayLegend += '<li>Option E (70%) - applies to a <strong>person</strong> who qualifies as a “new entrant”. To qualify the CoS must not exceed 4 years. </br>'
-        overlayLegend += '<h5>According to the Immigration Rules (See S.W. 4.2), a <i>New Entrant</i> is defined as someone who is <i>under the age of 26</i>, is <i>switching from the Student route to Skilled worker route</i> and had <i>held a UK student visa and completed a course at Bachelor’s degree or above within the last 2 years</i>.</h5></li></ul>'
-    }
     overlayLegend +='<h5>Report Key : <ul>'
+    if(report_tab == 1){
+        overlayLegend += '<li>90% (Option B) - person with a PHD relevant to the role, AND sponsored under a  qualifying “PHD” code job - the person’s PHD is a non-STEM PHD qualification.</li>'
+        overlayLegend += '<li>80% (Option C) - person with a PHD relevant to the role, AND sponsored under a  qualifying “PHD” code job - the person’s PHD is a STEM PHD qualification.</li>'
+        overlayLegend += '<li>80% (Option D) - a job that is a shortage occupation list role – with the exception of health and education codes that fall under national pay scales.</li>'
+        overlayLegend += '<li>70% (Option E) - applies to a <strong>person</strong> who qualifies as a “new entrant”. To qualify the CoS must not exceed 4 years. </br>'
+        overlayLegend += '<h5>According to the Immigration Rules (See S.W. 4.2), a <i>New Entrant</i> is defined as someone who is <i>under the age of 26</i>, is <i>switching from the Student route to Skilled worker route</i> and had <i>held a UK student visa and completed a course at Bachelor’s degree or above within the last 2 years</i>.</h5></li>'
+    }
     overlayLegend += '<li>SW = Skilled Worker Visa</li>'
     overlayLegend += '<li>ESWN = England, Scotland, Wales, Northern Ireland</li><li>H & Ed : Health and Education</li></ul></h5>'
     overlayHtmlLegend.innerHTML = overlayLegend;
@@ -244,13 +232,14 @@ function closeNav() {
         console.log('inside if  report_tab 1')
         var overlayReportKey = document.querySelector( ".overlay-content-reportkey" );
         var overlayReportKeyHtml = '';
-        overlayReportKeyHtml += '<u><h3> Salary Requirements for the SOC Code</h3></u>' // <u> Going Rate : </u>' + report_rate + ' </br> 90% (Option B) : ' + report_90B + ' </br> 80% (Option C & D)  : ' + report_80CD + '</br> 70% (Option E) : ' + report_70E + '</br> Calculated per weekly Hours : ' + report_hours + '</br> </br>'
-        overlayReportKeyHtml += '<table style="width:100%"><tr><th>Criteria</th><th>Option A</th><th>Option B</th><th>Option C & D</th><th>Option E</th></tr>'
-        overlayReportKeyHtml += '<tr><td><strong>Going Rate default to ' + report_hours + ' hours/week </strong></td><td> £' + report_rate + ' (£' + (report_rate/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_90B + ' (£' + (report_90B/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_80CD + ' (£' + (report_80CD/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_70E + ' (£' + (report_70E/52/report_hours).toFixed(2) + ' per hour)</td></tr>'
-        overlayReportKeyHtml += '<tr><td><strong>General Salary Threshold </strong></td><td> £' + report_A_gen + ' (£' + (report_A_gen/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_B_gen +' (£' + (report_B_gen/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_C_D_gen +' (£' + (report_C_D_gen/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_E_gen +' (£' + (report_E_gen/52/report_hours).toFixed(2) + ' per hour)</td></tr></table>'
-        overlayReportKeyHtml += '<h6>NOTE : Going Rate is the minimum pay for the role. General Threshold for a Skilled Worker Visa is capped at 48 hours. If your salary does not meet the General Threshold of £25,600 per annum, you may be able to trade points for a lower salary threshold.</h6>'
+        overlayReportKeyHtml += '<u><h3> Salary Requirements default to ' + report_hours + ' Hours</h3></u>' // <u> Going Rate : </u>' + report_rate + ' </br> 90% (Option B) : ' + report_90B + ' </br> 80% (Option C & D)  : ' + report_80CD + '</br> 70% (Option E) : ' + report_70E + '</br> Calcualted per weekly Hours : ' + report_hours + '</br> </br>'
+        overlayReportKeyHtml += '<table style="width:100%"><tr><th>Going Rate (Option A)</th><th>90% (Option B)</th><th>80% (Option C & D)</th><th>70% (Option E)</th></tr>'
+        overlayReportKeyHtml += '<tr><td> £' + report_rate + ' (£' + (report_rate/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_90B + ' (£' + (report_90B/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_80CD + ' (£' + (report_80CD/52/report_hours).toFixed(2) + ' per hour)</td><td> £' + report_70E + ' (£' + (report_70E/52/report_hours).toFixed(2) + ' per hour)</td></tr></table>'
+        overlayReportKeyHtml += '<u><h3> Minimum Salary as per the Tradeable Points Requirements</h3></u>' // <u> Going Rate : </u>' + report_rate + ' </br> 90% (Option B) : ' + report_90B + ' </br> 80% (Option C & D)  : ' + report_80CD + '</br> 70% (Option E) : ' + report_70E + '</br> Calcualted per weekly Hours : ' + report_hours + '</br> </br>'
+        overlayReportKeyHtml += '<table style="width:100%"><tr><th>Going Rate (Option A)</th><th>90% (Option B)</th><th>80% (Option C & D)</th><th>70% (Option E)</th></tr>'
+        overlayReportKeyHtml += '<tr><td> £25600 (£10.10 per hour)</td><td> £23040 (£10.10 per hour)</td><td> £20480 (£10.10 per hour)</td><td> £20480 (£10.10 per hour)</td></tr></table>'
         overlayReportKeyHtml += '<u><h3> Salary Requirements after pro rata calculation</h3></u>'
-        overlayReportKeyHtml += '<form><input type="text" name="hours" id="hours" required placeholder="Enter weekly working hours..."><input type="button" name="salcal" id="salcal" value="Submit" onclick="getSal('+ report_rate + ',' + report_hours + ',' + report_A_gen + ',' + report_B_gen + ',' + report_C_D_gen + ',' + report_E_gen + ')"></form>'
+        overlayReportKeyHtml += '<form><input type="text" name="hours" id="hours" required placeholder="Enter weekly working hours..."><input type="button" name="salcal" id="salcal" value="Submit" onclick="getSal('+ report_rate + ',' + report_hours + ')"></form>'
         //overlayReportKeyHtml +=  '</br>'
         document.getElementById("repkey").style.display = "block";
         overlayReportKey.innerHTML = overlayReportKeyHtml;
@@ -287,67 +276,26 @@ function closeNav() {
     	
   }
 
-  function getSal(sal, h, a, b, c_d, e) 
+  function getSal(sal, h) 
 			{
                 var proh = document.getElementById("hours").value;
                 console.log('proh : ', proh)
                 disProh = proh
-                //if(proh > 48){proh = 48}
+                if(proh > 48){proh = 48}
                 var pro = (sal/h) * proh
 
 				console.log('pro : ', pro)
 				var overlaySubHtmlReport = document.querySelector( ".overlay-content-subtext" );
                 var overlaySubHtml = '';
-               // overlaySubHtml += '<h4>Calculated per <strong>' + proh + '</strong> weekly Hours*</h4>'
-               overlaySubHtml += '<table style="width:100%"><tr><th>Criteria</th><th>Option A</th><th>Option B</th><th>Option C & D</th><th>Option E</th></tr>'
-               overlaySubHtml += '<tr><td><strong>Going Rate calculated ' + proh + ' hours/week</strong></td><td> £ ' + pro.toFixed(2) + ' (£' + (pro/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.9).toFixed(2) + ' (£' + ((pro*0.9)/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.8).toFixed(2) + ' (£' + ((pro*0.8)/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.7).toFixed(2) + ' (£' + ((pro*0.7)/52/proh).toFixed(2) + ' per hour)</td></tr>'
-               // overlaySubHtml += '<tr><td><strong>General Threshold</strong></td><td> £ ' + ((report_A_gen/52/48) * proh * 52).toFixed(2) + ' (£10.26 per hour)</td><td> £' + (9.23 * proh * 52).toFixed(2) + ' (£9.23 per hour)</td><td> £' + (8.21 * proh * 52).toFixed(2) + ' (£8.21 per hour)</td><td> £' + (8.21 * proh * 52).toFixed(2) + ' (£8.21 per hour)</td><td> ' + proh + '</td></tr>'
-               overlaySubHtml += '<tr><td><strong>General Salary Threshold calculated ' + proh + ' hours/week</strong></td><td> £ ' + ((a/52/48) * proh * 52).toFixed(2) + ' (£10.26 per hour)</td><td> £' + ((b/52/48) * proh * 52).toFixed(2) + ' (£9.23 per hour)</td><td> £' + ((c_d/52/48) * proh * 52).toFixed(2) + ' (£8.21 per hour)</td><td> £' + ((e/52/48) * proh * 52).toFixed(2) + ' (£8.21 per hour)</td></tr>'
-               /*if(disProh > 48)
+               //  overlaySubHtml += '<h3> Salary Requirements after pro rata calculation</h3>'
+               overlaySubHtml += '<table style="width:100%"><tr><th>Going Rate (Option A)</th><th>90% (Option B)</th><th>80% (Option C & D)</th><th>70% (Option E)</th><th>Calcualted per weekly Hours*</th></tr>'
+               overlaySubHtml += '<tr><td> £ ' + pro.toFixed(2) + ' (£' + (pro/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.9).toFixed(2) + ' (£' + ((pro*0.9)/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.8).toFixed(2) + ' (£' + ((pro*0.8)/52/proh).toFixed(2) + ' per hour)</td><td> £' + (pro*0.7).toFixed(2) + ' (£' + ((pro*0.7)/52/proh).toFixed(2) + ' per hour)</td><td>' + disProh + '</td></tr></table>'
+                // overlaySubHtml += '<u> Going Rate : </u> £' + pro.toFixed(2) + ' </br>90% (Option B) : £' + (pro*0.9).toFixed(2) + ' </br> 80% (Option C & D)  : £' + (pro*0.8).toFixed(2) + '</br> 70% (Option E) : £' + (pro*0.7).toFixed(2) + '</br> Calcualted per weekly Hours : ' + disProh
+                if(disProh > 48)
                 {
                     console.log('inside if')
-                    overlaySubHtml += '<tr><td><strong>UKVI Minimum</strong></td><td colspan="4"> £ ' + (10.10 * 48 * 52).toFixed(2) + '</td><td>48</td></tr>'
+                    overlaySubHtml +='<h6>NOTE* : The Home Office takes only 48 weekly working hours into account when assessing if the general salary threshold is met. Hence, calculations are capped at 48 hours.</h6>'
                 }
-                else{
-                    overlaySubHtml += '<tr><td><strong>UKVI Minimum</strong></td><td colspan="4"> £ ' + (10.10 * proh * 52).toFixed(2) + '</td><td>' + proh + '</td></tr>'
-                }*/
-                overlaySubHtml += '<tr><td><strong>£10.10 Hourly Minimum</strong></td><td colspan="4"> £ ' + (10.10 * proh * 52).toFixed(2) + ' per year (£10.10 per hour)</td></tr></table>'
-                if(disProh > 48){overlaySubHtml +='<h6>NOTE* : The Home Office takes only 48 weekly working hours into account when assessing if the general salary threshold is met.</h6>'}
-               overlaySubHtml += '<u><h3> Salary Package Evaluation</h3></u>'
-               overlaySubHtml += '<form><input type="text" name="saleval" id="saleval" required placeholder="Enter total offered salary..."><input type="button" name="saleval" id="saleval" value="Submit" onclick="evalSal(' + pro + ',' + proh + ',' + a + ')"></form>'
-               // overlaySubHtml += '<tr><td> £ ' + (10.26 * h * 52).toFixed(2) + ' (£10.26 per hour)</td><td> £' + (9.23 * h * 52).toFixed(2) + ' (£9.23 per hour)</td><td> £' + (8.21 * h * 52).toFixed(2) + ' (£8.21 per hour)</td><td> £' + (8.21 * h * 52).toFixed(2) + ' (£8.21 per hour)</td><td>' + h + '</td></tr></table>'
-                // overlaySubHtml += '<u> Going Rate : </u> £' + pro.toFixed(2) + ' </br>90% (Option B) : £' + (pro*0.9).toFixed(2) + ' </br> 80% (Option C & D)  : £' + (pro*0.8).toFixed(2) + '</br> 70% (Option E) : £' + (pro*0.7).toFixed(2) + '</br> Calculated per weekly Hours : ' + disProh
-                
                 document.getElementById("prorata").style.display = "block";
                 overlaySubHtmlReport.innerHTML = overlaySubHtml;
 			}
-    
-    function evalSal(pro, offHrs, a)
-    {
-        var offSal = document.getElementById("saleval").value;
-        console.log('offSal : ', offSal)
-        var res11 = 'Not Met';
-        var res12 = 'Not Met';
-        var res13 = 'Not Met';
-        var res14 = 'Not Met';
-        var resHr = 'Not Met';
-        var perHr = (offSal/52/offHrs);
-        console.log('perHr : ', perHr)
-        var resthresh = 'Not Met';
-        var overlaySalEvalHtmlReport = document.querySelector( ".overlay-content-evaluation" );
-        var overlaySalEvalHtml = '';
-        overlaySalEvalHtml += '<table style="width:100%"><tr><th>Criteria</th><th>Option A</th><th>Option B</th><th>Option C & D</th><th>Option E</th></tr>'
-        if(offSal > pro){res11 = 'Met'}
-        if((offSal) > (pro*0.9)){res12 = 'Met'}
-        if((offSal) > (pro*0.8)){res13 = 'Met'}
-        if((offSal) > (pro*0.7)){res14 = 'Met'}
-        if(perHr > 10.10){resHr = 'Met'}
-        if((perHr * 48 * 52) > a){resthresh = 'Met'}
-        console.log('perHr * offHrs * 52 : ', perHr * offHrs * 52)
-        overlaySalEvalHtml += '<tr><td><strong>Going Rate calculated ' + offHrs + ' hours/week</strong></td><td>' + res11 + '</td><td>' + res12 + '</td><td>' + res13 + '</td><td>' + res14 + '</td></tr>'
-        overlaySalEvalHtml += '<tr><td><strong>General Threshold calculated 48 hours/week</strong></td><td colspan="4">Offered £ ' + (perHr * 48 * 52).toFixed(2) + ' - '+  resthresh +'</td></tr>'
-        overlaySalEvalHtml += '<tr><td><strong>£10.10 Hourly Minimum</strong></td><td colspan="4"> Offered £ ' + (perHr).toFixed(2) + ' per hour - '+ resHr +'</td></tr></table>'
-        
-        document.getElementById("offsaleval").style.display = "block";
-        overlaySalEvalHtmlReport.innerHTML = overlaySalEvalHtml;
-    }
